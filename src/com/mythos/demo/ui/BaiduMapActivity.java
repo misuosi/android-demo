@@ -39,6 +39,11 @@ import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.mythos.demo.R;
 
+/**
+ * @author YLM
+ * 2015-2-2 下午8:12:25
+ * 百度地图demo
+ */
 public class BaiduMapActivity extends Activity {
 
 	private static final String Tag = "BaiduMapActivity";

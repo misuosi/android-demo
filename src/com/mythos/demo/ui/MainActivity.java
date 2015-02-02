@@ -15,6 +15,11 @@ import android.widget.ListView;
 
 import com.mythos.demo.R;
 
+/**
+ * @author YLM
+ * 2015-2-2 下午8:12:25
+ * Activity主类
+ */
 public class MainActivity extends ListActivity {
 
 	@Override
