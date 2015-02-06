@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2014 Myth Technology, Inc. All rights reserved.
+ */
 package com.mythos.demo.ui;
 
 import java.util.ArrayList;
@@ -40,9 +43,15 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.mythos.demo.R;
 
 /**
+ * Description		: 百度地图demo
+ * 
+ * <br><br>Time		: 2015-2-2 下午8:12:25
+ * 
+ * @version 1.0
+ * 
+ * @since 1.0
+ * 
  * @author YLM
- * 2015-2-2 下午8:12:25
- * 百度地图demo
  */
 public class BaiduMapActivity extends Activity {
 

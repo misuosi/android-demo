@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2014 Myth Technology, Inc. All rights reserved.
+ */
 package com.mythos.demo.ui;
 
 import java.util.ArrayList;
@@ -16,9 +19,15 @@ import android.widget.ListView;
 import com.mythos.demo.R;
 
 /**
+ * Description		: Activity主类
+ * 
+ * <br><br>Time		: 2015-2-2 下午8:12:25
+ * 
+ * @version 1.0
+ * 
+ * @since 1.0
+ * 
  * @author YLM
- * 2015-2-2 下午8:12:25
- * Activity主类
  */
 public class MainActivity extends ListActivity {
 
