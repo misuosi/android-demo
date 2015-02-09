@@ -17,5 +17,7 @@ package com.mythos.demo.common.constants;
  */
 public class DateConstants {
 	
+	public static final String DATE_FORMAT_YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT_YYYYMMDDHHMM = "yyyy-MM-dd HH:mm";
+	public static final String DATE_FORMAT_YYYYMM = "yyyy-MM-dd";
 }
