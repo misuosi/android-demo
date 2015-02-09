@@ -12,7 +12,6 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
-import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
 import android.app.Service;
@@ -43,6 +42,8 @@ public class MinaClientService extends Service {
 	public static final String INTENT_KEY_MESSAGE = "INTENT_KEY_MESSAGE";
 	
 	private MyApplication myApplication;
+	private NioSocketConnector connector;
+	private Handler handler = new Handler();
 	
 	@Override
 	public void onCreate() {
@@ -59,7 +60,12 @@ public class MinaClientService extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 		if(myApplication.session != null){
+			//关闭session连接
 			myApplication.session.close(true);
+		}
+		if(connector != null) {
+	        //释放资源
+	        connector.dispose();
 		}
 	}
 	
@@ -71,7 +77,7 @@ public class MinaClientService extends Service {
 	
 	private void initMina() {
     	// 创建一个基于NIO的tcp/ip连接
-        NioSocketConnector connector = new NioSocketConnector();
+        connector = new NioSocketConnector();
 		// 创建接收数据的过滤器
         DefaultIoFilterChainBuilder chain = connector.getFilterChain();
         // 设定过滤器一行行(/r/n)的读取字符串数据
@@ -82,36 +88,32 @@ public class MinaClientService extends Service {
         //chain.addLast("objectFilter",filter);
  
         //允许读取服务器端传送过来的数据
-        SocketSessionConfig cfg = connector.getSessionConfig();  
-        cfg.setUseReadOperation(true); 
+        //SocketSessionConfig cfg = connector.getSessionConfig();  
+        //cfg.setUseReadOperation(true); 
         
         // 设定服务器端的消息处理器:一个 SamplMinaServerHandler 对象,
         connector.setHandler(new MinaClientHanlder());
         // 设置超时时间.
-        connector.setConnectTimeoutCheckInterval(HttpConfig.MINA_TIMEOUT);
-        // 连接到服务器:
-        ConnectFuture cf = connector.connect(new InetSocketAddress("192.168.1.101",
-        		HttpConfig.MINA_PORT));
-        // 等待服务器相应，直到连接断开
-        cf.awaitUninterruptibly();
-        IoSession session = null;
+        connector.setConnectTimeoutMillis(HttpConfig.MINA_TIMEOUT);
+        //connector.setConnectTimeoutCheckInterval(HttpConfig.MINA_TIMEOUT);
         try{
-        	session = cf.getSession();
-        	myApplication.session = session;
-        	session.getCloseFuture().awaitUninterruptibly();
+        	// 连接到服务器:
+            ConnectFuture cf = connector.connect(new InetSocketAddress("192.168.1.101",
+            		HttpConfig.MINA_PORT));
+            // 等待服务器相应，直到连接断开
+            cf.awaitUninterruptibly();
+            myApplication.session = cf.getSession();
+        	myApplication.session.getCloseFuture().awaitUninterruptibly();
         } catch(Exception e){
-        	new Handler().post(new Runnable(){
+        	handler.post(new Runnable(){
 
 				@Override
 				public void run() {
-					Toast.makeText(MinaClientService.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
+					Toast.makeText(MinaClientService.this, "连接服务器失败", Toast.LENGTH_LONG).show();
 				}
         		
         	});
         }
-        
-        // 释放资源
-        //connector.dispose();
         
     }
 	

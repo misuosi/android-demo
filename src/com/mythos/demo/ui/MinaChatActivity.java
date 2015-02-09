@@ -147,7 +147,7 @@ public class MinaChatActivity extends Activity implements OnClickListener{
 		protected Boolean doInBackground(MinaChatMessage... message) {
 			Gson gson = new Gson();
 			String jsonMessage = gson.toJson(message[0]);
-			if(myApplication.session.write(jsonMessage).awaitUninterruptibly(HttpConfig.MINA_TIMEOUT)){
+			if(myApplication.session != null && myApplication.session.write(jsonMessage).awaitUninterruptibly(HttpConfig.MINA_TIMEOUT)){
 				return true;
 			}
 			return false;
@@ -159,7 +159,7 @@ public class MinaChatActivity extends Activity implements OnClickListener{
 			if(result){
 				Toast.makeText(MinaChatActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
 			} else {
-				Toast.makeText(MinaChatActivity.this, "服务器连接超时", Toast.LENGTH_SHORT).show();
+				Toast.makeText(MinaChatActivity.this, "服务器错误，发送失败", Toast.LENGTH_LONG).show();
 			}
 		}
     }

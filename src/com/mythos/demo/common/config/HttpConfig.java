@@ -20,5 +20,5 @@ public class HttpConfig {
 	//mina专用监听端口
 	public static final int MINA_PORT = 9026;
 	//mina连接超时时间
-	public static final long MINA_TIMEOUT = 30000;
+	public static final long MINA_TIMEOUT = 15000;
 }
