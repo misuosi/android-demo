@@ -42,6 +42,7 @@ public class MainActivity extends ListActivity {
 		List<String> list = new ArrayList<String>();
 		list.add("百度地图");
 		list.add("页面缓存");
+		list.add("mina聊天");
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 		this.setListAdapter(adapter);
 		
@@ -59,6 +60,10 @@ public class MainActivity extends ListActivity {
 				case 1:
 					Intent intent1 = new Intent(MainActivity.this, PageCacheActivity.class);
 					startActivity(intent1);
+					break;
+				case 2:
+					Intent intent2 = new Intent(MainActivity.this, MinaChatActivity.class);
+					startActivity(intent2);
 					break;
 				}
 			}

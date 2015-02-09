@@ -25,6 +25,7 @@
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
         
     <application
+        android:name=".app.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -34,6 +35,22 @@
         <meta-data  
         android:name="com.baidu.lbsapi.API_KEY"  
         android:value="27FuP8pz1boclNA5CuidG2Gp" />
+        
+        
+        <!-- service -->
+        <service
+            android:name=".example.mina.MinaClientService"
+            android:enabled="true" >
+        </service>
+        
+        <!-- Activity -->
+        
+        <!-- mina实现即时聊天demo -->
+        <activity
+            android:name=".ui.MinaChatActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
         
         <!-- 百度地图demo -->
         <activity
