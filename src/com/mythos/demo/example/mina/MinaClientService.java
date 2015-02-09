@@ -98,7 +98,7 @@ public class MinaClientService extends Service {
         //connector.setConnectTimeoutCheckInterval(HttpConfig.MINA_TIMEOUT);
         try{
         	// 连接到服务器:
-            ConnectFuture cf = connector.connect(new InetSocketAddress("192.168.1.101",
+            ConnectFuture cf = connector.connect(new InetSocketAddress(HttpConfig.MINA_IP,
             		HttpConfig.MINA_PORT));
             // 等待服务器相应，直到连接断开
             cf.awaitUninterruptibly();

@@ -17,7 +17,9 @@ package com.mythos.demo.common.config;
  */
 public class HttpConfig {
 
-	//mina专用监听端口
+	//mina服务器IP
+	public static final String MINA_IP = "192.168.1.101";
+	//mina服务器监听端口
 	public static final int MINA_PORT = 9026;
 	//mina连接超时时间
 	public static final long MINA_TIMEOUT = 15000;
