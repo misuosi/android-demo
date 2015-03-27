@@ -108,7 +108,6 @@ public class MinaServerHanlder extends IoHandlerAdapter {
     // 当一个客户端关闭时
     @Override
     public void sessionClosed(IoSession session) {
-    	sessionMap.remove(session.getId());
         System.out.println("一个客户端断开连接,sessionID:"+ session.getId());
     }
  

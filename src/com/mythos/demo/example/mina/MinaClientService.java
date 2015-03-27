@@ -103,10 +103,11 @@ public class MinaClientService extends Service {
         	// 连接到服务器:
             ConnectFuture cf = connector.connect(new InetSocketAddress(HttpConfig.MINA_IP,
             		HttpConfig.MINA_PORT));
-            // 等待服务器相应，直到连接断开
+            // 等待服务器响应，等待是否连接成功，相当于是转异步执行为同步执行。
             cf.awaitUninterruptibly();
+            // 连接成功后获取会话对象。如果没有上面的等待，由于connect()方法是异步的，session可能会无法获取。  
             myApplication.session = cf.getSession();
-        	myApplication.session.getCloseFuture().awaitUninterruptibly();
+        	//myApplication.session.getCloseFuture().awaitUninterruptibly();
         } catch(Exception e){
         	handler.post(new Runnable(){
 
