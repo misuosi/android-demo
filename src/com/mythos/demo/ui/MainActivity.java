@@ -16,6 +16,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.mythos.demo.R;
 
 /**
@@ -43,6 +45,7 @@ public class MainActivity extends ListActivity {
 		list.add("百度地图");
 		list.add("页面缓存");
 		list.add("mina聊天");
+		list.add("JPush");
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 		this.setListAdapter(adapter);
 		
@@ -65,6 +68,10 @@ public class MainActivity extends ListActivity {
 					Intent intent2 = new Intent(MainActivity.this, MinaChatActivity.class);
 					startActivity(intent2);
 					break;
+				case 3:
+					Intent intent3 = new Intent(MainActivity.this, JPushActivity.class);
+					startActivity(intent3);
+					break;
 				}
 			}
 
@@ -78,4 +85,15 @@ public class MainActivity extends ListActivity {
 		return true;
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		JPushInterface.onResume(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		JPushInterface.onPause(this);
+	}
 }
