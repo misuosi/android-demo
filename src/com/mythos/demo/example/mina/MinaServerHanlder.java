@@ -5,13 +5,17 @@ package com.mythos.demo.example.mina;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
+import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolCodecFilter;
+import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
+import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 
 import com.google.gson.Gson;
 import com.mythos.demo.common.constants.DateConstants;
@@ -31,14 +35,29 @@ import com.mythos.demo.common.constants.DateConstants;
  */
 public class MinaServerHanlder extends IoHandlerAdapter {
 	private int count = 0;
-	private Map<Long, IoSession> sessionMap = new HashMap<Long, IoSession>();
+	private IoAcceptor acceptor = null;
+	private Map<Long, IoSession> sessionMap = null;
+	
+	public MinaServerHanlder(IoAcceptor acceptor) {
+		if(acceptor == null) {
+			this.acceptor = new NioSocketAcceptor();
+	        DefaultIoFilterChainBuilder chain = this.acceptor.getFilterChain();
+	        chain.addLast("textFilter", new ProtocolCodecFilter(new TextLineCodecFactory()));
+	        this.acceptor.setHandler(this);
+		} else {
+			this.acceptor = acceptor;
+		}
+		sessionMap = this.acceptor.getManagedSessions();
+	}
+	
     // 当一个新客户端连接后触发此方法.
+    @Override
     public void sessionCreated(IoSession session) {
         System.out.println("新客户端连接");
-        sessionMap.put(session.getId(), session);
     }
  
-    // 当一个客端端进入时 @Override
+    // 当一个客户端进入时 
+    @Override
     public void sessionOpened(IoSession session) throws Exception {
         count++;
         System.out.println("第" + count + "个 client 登陆！");
@@ -89,7 +108,7 @@ public class MinaServerHanlder extends IoHandlerAdapter {
     // 当一个客户端关闭时
     @Override
     public void sessionClosed(IoSession session) {
-		sessionMap.remove(session.getId());
+    	sessionMap.remove(session.getId());
         System.out.println("一个客户端断开连接,sessionID:"+ session.getId());
     }
  

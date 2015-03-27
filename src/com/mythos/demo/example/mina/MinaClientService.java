@@ -7,6 +7,7 @@ import java.net.InetSocketAddress;
 
 import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
 import org.apache.mina.core.future.ConnectFuture;
+import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
@@ -42,7 +43,7 @@ public class MinaClientService extends Service {
 	public static final String INTENT_KEY_MESSAGE = "INTENT_KEY_MESSAGE";
 	
 	private MyApplication myApplication;
-	private NioSocketConnector connector;
+	private IoConnector connector;
 	private Handler handler = new Handler();
 	
 	@Override
@@ -80,9 +81,11 @@ public class MinaClientService extends Service {
         connector = new NioSocketConnector();
 		// 创建接收数据的过滤器
         DefaultIoFilterChainBuilder chain = connector.getFilterChain();
-        // 设定过滤器一行行(/r/n)的读取字符串数据
-        chain.addLast("StringFilter", new ProtocolCodecFilter(new TextLineCodecFactory()));
-        // 设定这个过滤器将以对象为单位读取数据
+        /*---------接收字符串---------*/
+        //设置单行字符串的过滤器读取数据
+        chain.addLast("textFilter", new ProtocolCodecFilter(new TextLineCodecFactory()));
+        /*---------接收对象---------*/
+        //设置以对象为单位的过滤器读取数据
         //ProtocolCodecFilter filter = new ProtocolCodecFilter(new ObjectSerializationCodecFactory());
         // 设定服务器端的消息处理器:一个SamplMinaServerHandler对象,
         //chain.addLast("objectFilter",filter);
